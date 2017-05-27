@@ -55,9 +55,16 @@ a2enmod rewrite >> /vagrant/vm_build.log 2>&1
 echo -e "\n--- Allowing Apache override to all ---\n"
 sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
 
+# use this code to set up a dev environment
 # echo -e "\n--- Setting document root to public directory ---\n"
 # rm -rf /var/www/html
 # ln -fs /vagrant/web /var/www/html 
+
+# use the code below for a more production-like environment 
+mkdir -p /var/www/html
+chmod g+w /var/www/html
+chgrp www-data /var/www/html
+usermod -a -G www-data ubuntu
 
 echo -e "\n--- We definitly need to see the PHP errors, turning them on ---\n"
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/apache2/php.ini
